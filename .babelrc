@@ -1,0 +1,14 @@
+{
+  "presets": [
+    "@babel/preset-env",
+    [
+      "@babel/preset-react",
+      {
+        "runtime": "automatic"
+      }
+    ]
+  ],
+  "extensions": [".js", ".jsx", ".ts", ".tsx", ".scss"],
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}

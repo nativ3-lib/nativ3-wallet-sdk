@@ -1,0 +1,96 @@
+.n3-wallet {
+  position: fixed;
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  &.n3-show{
+    display: block;
+  }
+  .n3-hidden {
+    display: none !important;
+  }
+  .n3-wallet-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,.3);
+    z-index: 1;
+  }
+  .n3-wallet-warp {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 90%;
+    max-width: 400px;
+    transform: translate(-50%,-50%);
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    z-index: 2;
+    .n3-list-wallet {
+      display: flex;
+      flex-direction: column;
+      .item-wallet {
+        border-bottom: solid 1px rgba(210, 210, 210, 0.5);
+        padding: 10px;
+        .wallet-provider-wrapper {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          border-radius: 6px;
+          padding: 40px 0;
+          user-select: none;
+          &:hover {
+            cursor: pointer;
+            background-color: rgba(210, 210, 210, .3);
+          }
+          .wallet-provider-logo {
+            width: 40px;
+            margin-bottom: 10px;
+          }
+          .wallet-provider-name {
+            line-height: 40px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+          }
+          .wallet-provider-description {
+            line-height: 20px;
+            font-size: 16px;
+            color: rgb(169, 169, 188);
+            @keyframes gogogo {
+              0%{
+                transform: rotate(0deg);
+              }
+              50%{
+                transform: rotate(180deg);
+              }
+              100%{
+                transform: rotate(360deg);
+              }
+            }
+            .wallet-provider-loading {
+              display: inline-block;
+              vertical-align: -2px;
+              margin-left: 6px;
+              color: #000;
+              animation:gogogo 1s infinite linear;
+              width: 16px;
+              height: 16px;
+              svg {
+                width: 16px;
+                height: 16px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

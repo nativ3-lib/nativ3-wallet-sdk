@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>N3 Wallet Sdk</title>
+	<style>
+		.btn-warp {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			flex-direction: column;
+			width: 500px;
+			margin: 10% auto;
+			text-align: center;
+		}
+		.account {
+			display: block;
+			text-align: center;
+		}
+		button {
+			width: 150px;
+			height: 50px;
+			background-color: green;
+			color: #fff;
+			font-size: 16px;
+			text-align: center;
+			border-radius: 10px;
+			border: solid 1px green;
+			margin-top: 20px;
+			cursor: pointer;
+		}
+	</style>
+
+</head>
+<body>
+	<div class="btn-warp">
+		<span class="account">Loading...</span>
+		<button id="openWalletId">Open Wallet</button>
+		<button id="disconnectId">Disconnect</button>
+		<button id="switchChainId">SwitchChain 806</button>
+	</div>
+	<script type="module">
+		import N3Wallet, {WALLET_EVENTS} from './dist/n3-wallet-sdk.esm.js'
+		const accountDom = document.querySelector('.account')
+		N3Wallet.Instance.getProvider()
+		const initWalletEvent = (wallet) => {
+			wallet.provider.on('accountsChanged', (res) => {
+				console.log('wallet.provider.on(\'accountsChanged\')', res)
+			})
+			wallet.provider.on('chainChanged', (res) => {
+				console.log('wallet.provider.on(\'chainChanged\')', res)
+			})
+			wallet.provider.request({
+				method: 'eth_chainId'
+			}).then((chainId) => {
+				console.log('eth_chainId', chainId)
+			})
+			N3Wallet.Instance.getChainId().then((chainId) => {
+				console.log('N3Wallet.Instance.getChainId() = ', chainId)
+			})
+		}
+		const initSDKEvent = () => {
+			N3Wallet.Instance.on(WALLET_EVENTS.PUBLIC_WALLET, (wallet) => {
+				accountDom.innerText = `account: ${wallet.account}`
+				initWalletEvent(wallet)
+			})
+			N3Wallet.Instance.on(WALLET_EVENTS.CLOSE_MODAL, () => {
+				console.log(WALLET_EVENTS.CLOSE_MODAL)
+			})
+			N3Wallet.Instance.on(WALLET_EVENTS.OPEN_MODAL, () => {
+				console.log(WALLET_EVENTS.OPEN_MODAL)
+			})
+			N3Wallet.Instance.on(WALLET_EVENTS.CHAIN_CHANGED, (chainId) => {
+				console.log(`${WALLET_EVENTS.CHAIN_CHANGED} = ${chainId}`)
+			})
+			N3Wallet.Instance.on(WALLET_EVENTS.ACCOUNT_CHANGED, (account) => {
+				console.log(`${WALLET_EVENTS.ACCOUNT_CHANGED} = ${account}`)
+			})
+			N3Wallet.Instance.on(WALLET_EVENTS.ACCOUNTS_CHANGED, (accountArray) => {
+				console.log(`${WALLET_EVENTS.ACCOUNTS_CHANGED} = ${accountArray}`)
+			})
+		}
+		const initPage = async () => {
+			accountDom.innerText = `Loading...`
+			initSDKEvent()
+			const result = await N3Wallet.Instance.init({
+				buildEnv: 'development',
+				defaultChainId: '806'
+			})
+			console.log(`Init ${result ? 'Successful!' : 'Fail!'}`)
+		}
+		initPage()
+		document.getElementById('openWalletId').onclick = () => {
+			N3Wallet.Instance.openWallet()
+		}
+		document.getElementById('disconnectId').onclick = async () => {
+			await N3Wallet.Instance.disconnect()
+			accountDom.innerText = ``
+		}
+		document.getElementById('switchChainId').onclick = () => {
+			N3Wallet.Instance.switchChain({
+				chain_id: 806,
+				chain_name: 'Nativ3 Dev',
+				chain_icon: 'https://static.nativ3.network/images/1f2bc075ca1ab054e574b2dfb826fcd0.png',
+				rpc_public: 'https://rpc806.nativ3.network',
+				block_explorer: 'https://scan806.nativ3.network',
+				native_token_name: 'USNT',
+				native_token_symbol: 'USNT'
+			}).then(() => {
+				console.log('SwitchChain Success')
+			}).catch((err) => {
+				console.log('SwitchChain Fail', err)
+			})
+		}
+	</script>
+</body>
+</html>

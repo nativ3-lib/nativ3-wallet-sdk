@@ -1,0 +1,51 @@
+{
+  "name": "@nativ3/wallet-sdk",
+  "version": "1.0.2",
+  "description": "nativ3 wallet-sdk",
+  "css": "dist/index.css",
+  "main": "dist/n3-wallet-sdk.umd.js",
+  "module": "dist/n3-wallet-sdk.esm.js",
+  "umd": "dist/n3-wallet-sdk.umd.js",
+  "scripts": {
+    "local": "cross-env NODE_ENV=local yarn build",
+    "build": "rollup -c script/rollup.config.ts --configPlugin typescript2 --bundleConfigAsCjs",
+    "release": "node ./script/release.js"
+  },
+  "author": "bruce",
+  "license": "ISC",
+  "dependencies": {
+    "@n3-wallet/torus-embed": "git+ssh://git@git.double.lease:nativ3/n3-wallet-torus-embed.git"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.2",
+    "@babel/preset-env": "^7.23.2",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-json": "^6.0.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@types/node": "^20.8.7",
+    "chalk": "^5.3.0",
+    "cross-env": "^7.0.3",
+    "log-symbols": "^6.0.0",
+    "rollup": "^4.1.4",
+    "rollup-plugin-replace": "^2.2.0",
+    "rollup-plugin-sass": "^1.12.21",
+    "rollup-plugin-serve": "^2.0.2",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "shelljs": "^0.8.5",
+    "inquirer": "^8.1.2",
+    "typescript": "^5.2.2"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "engines": {
+    "node": ">=18.x",
+    "npm": ">=9.x"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}
